@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="differentreturntype" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test"/>
+    
+    <!-- BEGIN: theory.binary.differentreturntype.ant -->
+    <!-- This is the target that does the whole trick - e,g. it compiles
+        the Java source and then replaces tokens 
+        inside of the .class file
+     -->
+    <target name="-build-and-rename">
+        <mkdir dir="build/apimerge/classes"/>
+        <javac 
+            srcdir="src-apimerge" destdir="build/apimerge/classes" 
+            source="1.4" target="1.4" classpath="${cp}"
+        />
+        
+        <!-- this is the replace. As the replace is done textually,
+            we need to use some reasonable encoding that treats all 
+            byte values as characters. E.g. it is not possible to 
+            use UTF-8 as it does not like the standard Java header 
+            0xCAFEBABE. Western Europe encoding is fine
+        -->
+        <replace 
+            dir="build/apimerge/classes" casesensitive="true" 
+            encoding="iso-8859-1" summary="true"
+        >
+            <include name="**/*.class"/>
+            <replacetoken>g3tIcon</replacetoken>
+            <replacevalue>getIcon</replacevalue>
+        </replace>
+    </target>
+    <!-- END: theory.binary.differentreturntype.ant -->
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="clean">
+        <antcall target="-build-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+        <antcall target="-build-and-rename"/>
+        <antcall target="-build-one">
+            <param name="version" value="impl"/>
+            <param name="target" value="impl-with-api1.0"/>
+            <param name="cp" location="build/api1.0/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="impl"/>
+            <param name="target" value="impl-with-api2.0"/>
+            <param name="cp" location="build/api2.0/classes"/>
+        </antcall>
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Running the Implementation Compiled against Version 1.0 with Version 1.0. This should succeeds."/>
+        <antcall target="-run-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Running the Implementation Compiled against Version 2.0 with Version 2.0. This should succeeds."/>
+        <antcall target="-run-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+        <echo level="info" message="Running the Implementation Compiled against Version 1.0 with Version 2.0. This should fail."/>
+        <antcall target="-run-one">
+            <param name="version" value="api2.0"/>
+            <param name="target" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Running the Implementation Compiled against Version 2.0 with Version 1.0. This should fail."/>
+        <antcall target="-run-one">
+            <param name="version" value="api1.0"/>
+            <param name="target" value="api2.0"/>
+        </antcall>
+        <echo level="info" message="Final success1: Running the Implementation Compiled against Version 1.0 with Merged Version."/>
+        <antcall target="-run-one">
+            <param name="version" value="apimerge"/>
+            <param name="target" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Final success2: Running the Implementation Compiled against Version 2.0 with Merged Version."/>
+        <antcall target="-run-one">
+            <param name="version" value="apimerge"/>
+            <param name="target" value="api2.0"/>
+        </antcall>
+    </target>
+
+    
+    <!-- support methods -->
+    
+    <target name="-run-one">
+        <fail message="You need to specify API version number" unless="version"/>
+        <property name="target" value="${version}"/>
+        <java classpath="build/${version}/classes:build/impl-with-${target}/classes" classname="impl.Impl"
+            failonerror="false"
+        />
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <property name="cp" value=""/>
+        <property name="target" value="${version}"/>
+        <mkdir dir="build/${target}/classes"/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${target}/classes" 
+            source="1.4" target="1.4"
+            classpath="${cp}"
+        />
+    </target>
+</project>

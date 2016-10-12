@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Various Examples of Component Injection" default="test" basedir=".">
+    <property name="spring.jar" value="spring-2.5.6.SEC01.jar"/>
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="-libraries">
+        <antcall target="-build-one">
+            <param name="version" value="api"/>
+            <param name="cp" value=""/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="api-compiletimecaches"/>
+            <param name="cp" value="build/api/classes:../../libs/dist/org-openide-util-lookup.jar:../../libs/dist/org-openide-util.jar:../../libs/dist/org-openide-filesystems.jar"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="word-annotated"/>
+            <param name="cp" value="build/api/classes:build/api-compiletimecaches/classes:../../libs/dist/org-openide-util.jar:../../libs/dist/org-openide-util-lookup.jar:../../libs/dist/org-openide-filesystems.jar"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="word-static"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="scrambler-simple"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="gui"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-register"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-register-general"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-property"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-spring"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/${spring.jar}"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-spring-scan"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/${spring.jar}"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-lookup"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/org-openide-util-lookup.jar"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="app-serviceloader"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="test"/>
+            <param name="cp" value="build/api/classes:build/gui/classes:build/app-serviceloader/classes:build/app-lookup/classes:${junit.jar}:${nbjunit.jar}:${insane.jar}"/>
+        </antcall>
+        
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Running registerXYZ version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-register"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+            <param name="main" value="org.apidesign.anagram.app.register.Main"/>
+        </antcall>
+        <echo level="info" message="Running System.getProperty version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-property"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+            <param name="main" value="org.apidesign.anagram.app.property.Main"/>
+        </antcall>
+        <echo level="info" message="Running spring version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-spring"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/${spring.jar}:../../libs/dist/commons-logging-1.1.jar"/>
+            <param name="main" value="org.apidesign.anagram.app.spring.Main"/>
+        </antcall>
+        <echo level="info" message="Running spring autoscan version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-spring-scan"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/${spring.jar}:../../libs/dist/commons-logging-1.1.jar"/>
+            <param name="main" value="org.apidesign.anagram.app.springscan.Main"/>
+        </antcall>
+        <echo level="info" message="Running registerGeneral version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-register-general"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes"/>
+            <param name="main" value="org.apidesign.anagram.app.registergeneral.Main"/>
+        </antcall>
+        <echo level="info" message="Running lookup version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-lookup"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/org-openide-util-lookup.jar"/>
+            <param name="main" value="org.apidesign.anagram.app.lookup.Main"/>
+        </antcall>
+        <antcall target="-run-one">
+            <param name="version" value="app-serviceloader"/>
+            <param name="cp" value="build/api/classes:build/word-static/classes:build/scrambler-simple/classes:build/gui/classes:${junit.jar}:${nbjunit.jar}:${insane.jar}"/>
+            <param name="main" value="org.apidesign.anagram.app.serviceloader.Main"/>
+        </antcall>
+        <echo level="info" message="Running @Words annotation version"/>
+        <antcall target="-run-one">
+            <param name="version" value="app-lookup"/>
+            <param name="cp" value="build/api/classes:build/word-annotated/classes:build/api-compiletimecaches/classes:build/scrambler-simple/classes:build/gui/classes:../../libs/dist/org-openide-util-lookup.jar:../../libs/dist/org-openide-util.jar:../../libs/dist/org-openide-filesystems.jar"/>
+            <param name="main" value="org.apidesign.anagram.app.lookup.Main"/>
+        </antcall>
+    </target>
+
+    <target name="test" depends="build">
+        <echo level="info" message="Testing using MockServices"/>
+        <antcall target="-test-one">
+            <param name="version" value="app-test"/>
+            <param name="cp" value="build/api/classes:build/gui/classes:build/app-serviceloader/classes:build/app-lookup/classes:${junit.jar}:${nbjunit.jar}:${insane.jar}:../../libs/dist/org-openide-util-lookup.jar"/>
+        </antcall>
+    </target>
+        
+    <!-- support methods -->
+    
+    <target name="-libraries">
+        <ant dir="../../libs/"/>
+        
+        <property name="junit.jar" location="../../libs/dist/junit-4.4.jar"/>
+        <property name="nbjunit.jar" location="../../libs/dist/org-netbeans-modules-nbjunit.jar"/>
+        <property name="insane.jar" location="../../libs/dist/org-netbeans-insane.jar"/>
+    </target>
+
+    <target name="-run-one">
+        <java classpath="${cp}:build/${version}/classes" classname="${main}" fork="true">
+            <jvmarg value="-Danagram.version=${version}"/>
+        </java>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value="build/api/classes"/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}"
+            debug="true" debuglevel="lines,vars,source"
+        />
+        <copy todir="build/${version}/classes">
+            <fileset dir="src-${version}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="-test-one">
+        <fail message="You need to specify API version number" unless="version"/>
+        <mkdir dir="build/testresults"/>
+        <junit dir="build/test/classes" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true">
+            <batchtest todir="build/testresults">
+                <fileset dir="build/test/classes">
+                    <filename name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path path="${cp}"/>
+                <path location="build/test/classes"/>
+                <path location="${junit.jar}"/>
+            </classpath>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+        </junit>
+    </target>
+</project>

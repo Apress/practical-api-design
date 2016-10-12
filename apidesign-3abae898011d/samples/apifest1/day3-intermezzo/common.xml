@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this is a template file to test  -->
+<project name="common" default="run" basedir=".">
+    <description>Builds the test against first version and runs them against two</description>
+    
+    <loadproperties srcfile="${ant.file.common}/../common.properties"/>
+    <loadproperties srcfile="project.properties"/>
+    
+    <target name="make-sure-projects-are-compiled">
+        <ant dir="${dayA}/${apitotest}" target="compile"/>
+        <ant dir="${dayB}/${apitotest}" target="compile"/>
+    </target>
+    
+    <target name="compile" depends="make-sure-projects-are-compiled">
+        <mkdir dir="build/tests"/>
+        <echo level="info" message="Compiling the tests against old version of the API"/>
+        <javac destdir="build/tests" srcdir="test">
+            <classpath>
+                <pathelement location="${apiA}"/>
+                <pathelement location="${junit.jar}"/>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="run" depends="-run-binary-check,-run-source-check">
+        <fail message="The test shall either compile against A and not B or run on A and fail on B, nothing like that happened">
+            <condition>
+                <not><or>
+                    <isset property="execution.failed"/>
+                    <isset property="compilation.failed"/>
+                </or></not>
+            </condition>
+        </fail>
+    </target>
+        
+    <target name="-run-binary-check" depends="compile">
+        <mkdir dir="build/testresultA"/>
+
+        <echo level="info" message="Running the tests against old version of the API"/>
+        <junit dir="build/tests" failureproperty="run.on.A.shall.succeed" fork="true">
+            <batchtest todir="build/testresultA">
+                <fileset dir="test" includes="**/*.java"/>
+            </batchtest>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <classpath>
+                <pathelement location="${apiA}"/>
+                <pathelement location="${junit.jar}"/>
+                <pathelement location="build/tests"/>
+            </classpath>
+        </junit>
+        
+        <mkdir dir="build/testresultB"/>
+        <echo level="info" message="Running the same tests against new version of the API, this should fail, if there is binary or functional incompatibility"/>
+        <junit dir="build/tests" failureproperty="run.on.B.shall.fail" fork="true">
+            <batchtest todir="build/testresultB">
+                <fileset dir="test" includes="**/*.java"/>
+            </batchtest>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <classpath>
+                <pathelement location="${apiB}"/>
+                <pathelement location="${junit.jar}"/>
+                <pathelement location="build/tests"/>
+            </classpath>
+        </junit>
+        
+        <condition property="execution.failed">
+            <and>
+                <isset property="run.on.B.shall.fail"/>
+                <not><isset property="run.on.A.shall.succeed"/></not>
+            </and>
+        </condition>
+    </target>
+    
+    <target name="-run-source-check" depends="compile" unless="execution.failed">
+        
+        <property name="build.b" location="build/verifyitbuildsagainstB"/>
+        <delete dir="${build.b}"/>
+        <mkdir dir="${build.b}"/>
+
+        
+        <echo level="info" message="Verifying source compatibility: Compiling the tests against new version of the API"/>
+        <javac destdir="${build.b}" srcdir="test" failonerror="false" fork="true">
+            <classpath>
+                <pathelement location="${apiB}"/>
+                <pathelement location="${junit.jar}"/>
+            </classpath>
+        </javac>
+
+        
+        <uptodate property="compilation.failed">
+            <srcfiles dir="${build.b}" includes="**/*.class"/>
+            <mapper type="glob" from="*" to="build/tests/*"/>
+        </uptodate>
+        
+
+    </target>
+    
+    <target name="test" depends="run"/>
+    
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+</project>    

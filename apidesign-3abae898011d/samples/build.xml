@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="samples" default="test" basedir=".">
+    <property name="samples.dir" location="${ant.file.samples}/.."/>
+    <dirset id="examples" dir="${samples.dir}">
+        <include name="**/nbproject"/>
+        <exclude name="nbproject"/>
+        <exclude name="apifest1/day3-intermezzo/**"/>
+        <exclude name="apifest1/infrastructure/testing-template/**"/>
+    </dirset>
+    
+    
+    <target name="clean" description="Cleans all build products">
+        <delete dir="${samples.dir}/build"/>
+        <subant target="clean" antfile="../build.xml">
+            <dirset refid="examples"/>
+        </subant>
+    </target>
+
+    <target name="build" description="Compiles all samples" >
+        <ant dir="${samples.dir}/libs"/>
+        <subant target="compile" antfile="../build.xml">
+            <dirset refid="examples"/>
+        </subant>
+    </target>
+
+    <target name="test" depends="build" description="Executes tests for all samples">
+        <subant target="test" antfile="../build.xml" failonerror="true">
+            <dirset refid="examples"/>
+            <property name="test-sys-prop.no.failures" value="true"/>
+        </subant>
+    </target>
+    
+    <target name="-version" unless="version">
+        <exec dir="${samples.dir}" outputproperty="version" executable="/bin/sh">
+            <arg file="${samples.dir}/version.sh"/>
+        </exec>
+    </target>
+
+    <target name="sources" depends="-version,clean" description="Creates source distribution of the samples">
+        <fail unless="version"/>
+        
+        <loadfile srcfile="${samples.dir}/../.hgignore" property="hgignore"/>
+        <mkdir dir="${samples.dir}/build"/>
+        <zip basedir="${samples.dir}" destfile="${samples.dir}/build/apidesign-${version}.zip">
+            <not>
+                <containsregexp expression="${hgignore}"/>
+            </not>
+            <not>
+                <filename name="version.sh"/>
+            </not>
+        </zip>
+    </target>
+
+    <target name="snippets" description="Extracts code snippets">
+        <property name="snippets.dir" location="build/snippets"/>
+        <ant dir="../java/ant" target="snippets">
+            <property name="snippets.dir" value="${snippets.dir}"/>
+            <property name="snippets.repo" value="http://source.apidesign.org/hg/apidesign"/>
+            <property name="snippets.path" value="samples/"/>
+            <property name="snippets.code.dir" location="."/>
+        </ant>
+    </target>
+</project>

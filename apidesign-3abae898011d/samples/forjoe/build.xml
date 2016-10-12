@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="forjoe" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build">
+        <antcall target="-build-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Compiling the Implementation. This should succeed."/>
+        <antcall target="-build-one">
+            <param name="version" value="impl"/>
+            <param name="cp" location="build/api1.0/classes"/>
+        </antcall>
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Instantiating and running Joe's implementation. This should succeed."/>
+        <antcall target="-run-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+    </target>
+
+    
+    <!-- support methods -->
+    
+    <target name="-run-one">
+        <fail message="You need to specify API version number" unless="version"/>
+        <java classpath="build/${version}/classes:build/impl/classes" classname="impl.joe.Main"
+            failonerror="true"
+        />
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}"
+        />
+    </target>
+</project>

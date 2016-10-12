@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1" xmlns:ns4="null">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <name>cleanversion</name>
+        </general-data>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
+            <!-- Do not use Project Properties customizer when editing this file manually. -->
+            <name>cleanversion</name>
+            <properties/>
+            <folders>
+                <source-folder>
+                    <label>src-api1.0</label>
+                    <type>java</type>
+                    <location>src-api1.0</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-api2.0</label>
+                    <type>java</type>
+                    <location>src-api2.0</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-api3.0</label>
+                    <type>java</type>
+                    <location>src-api3.0</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>test</label>
+                    <type>java</type>
+                    <location>src-test</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>test-2.0</label>
+                    <type>java</type>
+                    <location>src-test2.0</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>test-3.0</label>
+                    <type>java</type>
+                    <location>src-test3.0</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>build</target>
+                </action>
+                <action name="clean">
+                    <target>clean</target>
+                </action>
+                <action name="test">
+                    <target>test</target>
+                </action>
+                <action name="run">
+                    <target>test</target>
+                </action>
+                <action name="rebuild">
+                    <target>clean</target>
+                    <target>build</target>
+                </action>
+            </ide-actions>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>API Version 1.0</label>
+                        <location>src-api1.0</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>Usage of the API</label>
+                        <location>src-test</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>API Version 2.0</label>
+                        <location>src-api2.0</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>Usage of 2.0 elements with 1.0 visitor</label>
+                        <location>src-test2.0</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>API Version 3.0</label>
+                        <location>src-api3.0</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>Usage of old elements with 3.0 visitor</label>
+                        <location>src-test3.0</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="rebuild"/>
+                    <ide-action name="clean"/>
+                    <ide-action name="test"/>
+                </context-menu>
+            </view>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
+            <compilation-unit>
+                <package-root>src-api1.0</package-root>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-api2.0</package-root>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-api3.0</package-root>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-test</package-root>
+                <classpath mode="compile">src-api1.0:../../libs/dist/junit-4.4.jar</classpath>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-test2.0</package-root>
+                <classpath mode="compile">src-api2.0:src-test:../../libs/dist/junit-4.4.jar</classpath>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-test3.0</package-root>
+                <classpath mode="compile">src-api3.0:src-test:../../libs/dist/junit-4.4.jar</classpath>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

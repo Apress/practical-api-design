@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<!-- BEGIN: layer.xml -->
+<filesystem>
+  <folder name="Menu">
+    <file name="Open.instance"/>
+  </folder>
+</filesystem>
+<!-- END: layer.xml -->
+

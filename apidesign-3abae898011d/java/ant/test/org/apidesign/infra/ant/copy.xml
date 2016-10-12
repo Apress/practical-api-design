@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="testing build script" default="all" basedir=".">
+    <taskdef name="grepcopy" classname="org.apidesign.infra.ant.GrepCopy"/>
+    <fail unless="out.dir"/>
+    
+    <target name="all">
+        <grepcopy target="${out.dir}">
+            <fileset dir="${dir1}">
+                <include name="${include1}"/>
+            </fileset>    
+        </grepcopy>
+    </target>
+
+    <target name="url">
+        <grepcopy target="${out.dir}" baseurl="${out.url}">
+            <fileset dir="${dir1}">
+                <include name="${include1}"/>
+            </fileset>    
+        </grepcopy>
+    </target>
+</project>

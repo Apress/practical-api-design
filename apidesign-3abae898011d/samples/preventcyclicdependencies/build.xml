@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="preventcyclicdependencies" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test" depends="run"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build">
+        <antcall target="-build-one">
+            <param name="version" value="cyclic"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="test"/>
+            <param name="cp" location="build/cyclic/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="acyclic1"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="acyclic2"/>
+            <param name="cp" location="build/acyclic1/classes"/>
+        </antcall>
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Running old API with cycles between packages:"/>
+        <antcall target="-run-one">
+            <param name="version1" value="cyclic"/>
+        </antcall>
+        <echo level="info" message="Running new API without cycles:"/>
+        <antcall target="-run-one">
+            <param name="version1" value="acyclic1"/>
+            <param name="version2" value="acyclic2"/>
+        </antcall>
+    </target>
+
+    
+    <!-- support methods -->
+    
+    <target name="-run-one">
+        <java 
+            classpath="build/${version1}/classes:build/${version2}/classes:build/test/classes:../libs/dist/org-openide-util-lookup.jar"
+            classname="org.apidesign.cycles.array.test.Main"
+            failonerror="true" 
+        >
+            <jvmarg value="-ea"/>
+        </java>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            debug="true"
+            classpath="${cp}:../libs/dist/org-openide-util-lookup.jar"
+        />
+        <copy todir="build/${version}/classes">
+            <fileset dir="src-${version}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Build Script" default="test" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="-libraries">
+        <antcall target="-build-one">
+            <param name="version" value="new-api"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="bridge"/>
+            <param name="cp" value="build/new-api/classes"/>
+        </antcall>
+        
+        <antcall target="-build-one">
+            <param name="version" value="test"/>
+            <param name="cp" value="build/new-api/classes:${junit.jar}"/>
+        </antcall>
+    </target>
+    
+    <target name="test">
+        <antcall target="-do-test">
+            <param name="nodebug" value="true"/>
+        </antcall>
+    </target>
+        
+    <target name="-do-test" depends="build">
+        <echo level="info" message="Running the tests with bridge enabled. This should succeeds."/>
+        <antcall target="-run-one">
+            <param name="test.cp" value="build/new-api/classes:build/bridge/classes"/>
+        </antcall>
+        <echo level="info" message="Running the tests without bridge module. This should fail."/>
+        <antcall target="-run-one">
+            <param name="test.cp" value="build/new-api/classes"/>
+            <param name="test-sys-prop.no.md5" value="true"/>
+        </antcall>
+    </target>
+    
+    <!-- support methods -->
+    
+    <target name="-libraries">
+        <ant dir="../libs/"/>
+        
+        <property name="junit.jar" location="../libs/dist/junit-4.4.jar"/>
+    </target>
+
+    <target name="-debug-one" if="netbeans.home" unless="nodebug">
+        <nbjpdastart addressproperty="jpda.address" name="MessageDigest and Bridges" transport="dt_socket" >
+            <sourcepath path="src-new-api:src-bridge:src-test:build/test/classes"/>
+            <classpath path="build/new-api/classes:build/bridge/classes:build/test/classes"/>
+        </nbjpdastart>
+        <property name="debug1" value="-Xdebug"/>
+        <property name="debug2" value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+    </target>
+    
+    <target name="-run-one" depends="-debug-one">
+        <property name="debug1" value="-Dn1"/>
+        <property name="debug2" value="-Dn2"/>
+        <property name="include" value="**/*Test"/>
+        <mkdir dir="build/testresults"/>
+        <junit dir="build/test/classes" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true">
+            <batchtest todir="build/testresults">
+                <fileset dir="build/test/classes">
+                    <filename name="${include}.class"/>
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path path="${test.cp}"/>
+                <path location="build/test/classes"/>
+                <path location="${junit.jar}"/>
+            </classpath>
+            <syspropertyset>
+                <propertyref prefix="test-sys-prop."/>
+                <mapper from="test-sys-prop.*" to="*" type="glob"/>
+            </syspropertyset>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <jvmarg value="${debug1}"/>
+            <jvmarg value="${debug2}"/>
+        </junit>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}"
+            debug="true" debuglevel="lines,vars,source"
+        />
+        <copy todir="build/${version}/classes">
+            <fileset dir="src-${version}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

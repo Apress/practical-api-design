@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1" xmlns:ns4="null">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <name>preventcyclicdependencies</name>
+        </general-data>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
+            <!-- Do not use Project Properties customizer when editing this file manually. -->
+            <name>preventcyclicdependencies</name>
+            <properties/>
+            <folders>
+                <source-folder>
+                    <label>preventcyclicdependencies</label>
+                    <location>.</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-cyclic</label>
+                    <type>java</type>
+                    <location>src-cyclic</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-test</label>
+                    <type>java</type>
+                    <location>src-test</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-acyclic1</label>
+                    <type>java</type>
+                    <location>src-acyclic1</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-acyclic2</label>
+                    <type>java</type>
+                    <location>src-acyclic2</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>build</target>
+                </action>
+                <action name="clean">
+                    <target>clean</target>
+                </action>
+                <action name="run">
+                    <target>run</target>
+                </action>
+                <action name="rebuild">
+                    <target>clean</target>
+                    <target>build</target>
+                </action>
+                <action name="test">
+                    <target>test</target>
+                </action>
+            </ide-actions>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>src-cyclic</label>
+                        <location>src-cyclic</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-test</label>
+                        <location>src-test</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-acyclic1</label>
+                        <location>src-acyclic1</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-acyclic2</label>
+                        <location>src-acyclic2</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="rebuild"/>
+                    <ide-action name="clean"/>
+                    <ide-action name="run"/>
+                    <ide-action name="test"/>
+                </context-menu>
+            </view>
+            <subprojects/>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
+            <compilation-unit>
+                <package-root>src-cyclic</package-root>
+                <built-to>build/cyclic/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-test</package-root>
+                <classpath mode="compile">src-cyclic</classpath>
+                <built-to>build/test/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-acyclic1</package-root>
+                <classpath mode="compile">../libs/dist/org-openide-util-lookup.jar</classpath>
+                <built-to>build/acyclic1/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-acyclic2</package-root>
+                <classpath mode="compile">src-acyclic1</classpath>
+                <built-to>build/acyclic2/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

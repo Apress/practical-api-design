@@ -1,0 +1,3 @@
+# BEGIN: extension.point.Reg2
+org.apidesign.extensionpoint.impl2.HelloWorld
+# END: extension.point.Reg2

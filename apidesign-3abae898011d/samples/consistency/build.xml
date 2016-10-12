@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Build Script" default="test" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="-libraries">
+        <antcall target="-build-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+        
+        <antcall target="-build-one">
+            <param name="version" value="test"/>
+            <param name="cp" value="build/api1.0/classes:${junit.jar}"/>
+        </antcall>
+    </target>
+    
+    <target name="test" depends="build">
+        <echo level="info" message="Running the Implementation against Version 1.0 of the API. This should succeeds."/>
+        <antcall target="-run-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Running the Implementation against Version 2.0 of the API. This should fail."/>
+        <antcall target="-run-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+    </target>
+    
+    <!-- support methods -->
+    
+    <target name="-libraries">
+        <ant dir="../libs/"/>
+        
+        <property name="junit.jar" location="../libs/dist/junit-4.4.jar"/>
+    </target>
+    
+    <target name="-run-one">
+        <fail message="You need to specify API version number" unless="version"/>
+        <mkdir dir="build/testresults"/>
+        <junit dir="build/test/classes" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true">
+            <batchtest todir="build/testresults">
+                <fileset dir="build/test/classes">
+                    <filename name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path location="build/${version}/classes"/>
+                <path location="build/test/classes"/>
+                <path location="${junit.jar}"/>
+            </classpath>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+        </junit>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}"
+        />
+    </target>
+</project>

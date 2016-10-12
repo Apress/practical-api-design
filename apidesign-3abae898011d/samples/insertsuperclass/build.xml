@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="insertsuperclass" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test" depends="run"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build">
+        <antcall target="-build-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+        <echo level="info" message="Compiling the Implementation against Version 1.0 of the API. This should succeed."/>
+        <antcall target="-build-one">
+            <param name="version" value="impl"/>
+            <param name="cp" location="build/api1.0/classes"/>
+        </antcall>
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Running the Implementation against Version 1.0 of the API. This should succeed."/>
+        <antcall target="-run-one">
+            <param name="version" value="api1.0"/>
+        </antcall>
+        <echo level="info" message="Running the Implementation against Version 2.0 of the API. This should succeed."/>
+        <antcall target="-run-one">
+            <param name="version" value="api2.0"/>
+        </antcall>
+    </target>
+
+    
+    <!-- support methods -->
+    
+    <target name="-run-one">
+        <fail message="You need to specify API version number" unless="version"/>
+        <java classpath="build/${version}/classes:build/impl/classes" classname="org.apidesign.insertsuperclass.test.Main"
+            failonerror="true" fork="true">
+            <jvmarg value="-ea"/>
+        </java>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}"
+            debug="true"
+        />
+    </target>
+</project>

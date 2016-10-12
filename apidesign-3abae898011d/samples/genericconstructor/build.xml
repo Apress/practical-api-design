@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Generic Constructor" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="clean">
+        <echo level="info" message="Compiles with 1.4"/>
+        <antcall target="-build-one">
+            <param name="version" value="plain"/>
+            <param name="source" value="1.4"/>
+        </antcall>
+        <echo level="info" message="Compiles with 1.5, fails as there is now cast"/>
+        <antcall target="-build-one">
+            <param name="version" value="generics"/>
+            <param name="source" value="1.5"/>
+        </antcall>
+        <echo level="info" message="Compiles with 1.5"/>
+        <antcall target="-build-one">
+            <param name="version" value="factory"/>
+            <param name="source" value="1.5"/>
+        </antcall>
+    </target>
+    
+    <!-- support methods -->
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        <fail message="You need to specify source number" unless="source"/>
+        
+        <property name="target" value="${version}"/>
+        <mkdir dir="build/${target}/classes"/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${target}/classes" 
+            source="${source}" target="${source}"
+            classpath="${cp}"
+            failonerror="false"
+        >
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+    </target>
+</project>

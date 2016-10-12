@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="extensionpoint" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build">
+        <antcall target="-build-one">
+            <param name="version" value="api"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="helloworld"/>
+            <param name="cp" location="build/api/classes"/>
+        </antcall>
+        <antcall target="-build-one">
+            <param name="version" value="hellodesign"/>
+            <param name="cp" location="build/api/classes"/>
+        </antcall>
+    </target>
+    
+    <target name="run" depends="build">
+        <echo level="info" message="Running without any extension points."/>
+        <antcall target="-run-one">
+        </antcall>
+        <echo level="info" message="Running with 'Hello World!' extension."/>
+        <antcall target="-run-one">
+            <param name="version1" value="helloworld"/>
+        </antcall>
+        <echo level="info" message="Running with 'Hello Design!' extension."/>
+        <antcall target="-run-one">
+            <param name="version1" value="hellodesign"/>
+        </antcall>
+        <echo level="info" message="Running with both extension."/>
+        <antcall target="-run-one">
+            <param name="version1" value="helloworld"/>
+            <param name="version2" value="hellodesign"/>
+        </antcall>
+    </target>
+
+    
+    <!-- support methods -->
+    
+    <target name="-run-one">
+        <java 
+            classpath="build/${version1}/classes:build/${version2}/classes:build/api/classes:../libs/dist/org-openide-util-lookup.jar"
+            classname="org.apidesign.extensionpoint.Main"
+            failonerror="true" 
+        >
+            <jvmarg value="-ea"/>
+        </java>
+    </target>
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        
+        <mkdir dir="build/${version}/classes"/>
+        <property name="cp" value=""/>
+        <javac 
+            srcdir="src-${version}" 
+            destdir="build/${version}/classes" 
+            source="1.5" target="1.5"
+            classpath="${cp}:../libs/dist/org-openide-util-lookup.jar"
+        />
+        <copy todir="build/${version}/classes">
+            <fileset dir="src-${version}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

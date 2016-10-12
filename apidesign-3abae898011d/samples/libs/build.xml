@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Downloads necessary libraries" default="libraries" basedir=".">
+       <target name="libraries" depends="autoupdate-task">
+        <antcall target="-library">
+            <param name="library" value="junit-4.4"/>
+            <param name="url" value="http://switch.dl.sourceforge.net/sourceforge/junit/junit-4.4.jar"/>
+        </antcall>
+        <antcall target="-library">
+            <param name="library" value="derby"/>
+            <param name="url" value="http://mirrors.ibiblio.org/pub/mirrors/maven2/org/apache/derby/derby/10.6.1.0/derby-10.6.1.0.jar"/>
+        </antcall>
+        <antcall target="-library">
+            <param name="library" value="derbyclient"/>
+            <param name="url" value="http://mirrors.ibiblio.org/pub/mirrors/maven2/org/apache/derby/derbyclient/10.6.1.0/derbyclient-10.6.1.0.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.openide.util.lookup"/>
+            <param name="library.include" value="**/org-openide-util-lookup.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.openide.util"/>
+            <param name="library.include" value="**/org-openide-util.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.openide.filesystems"/>
+            <param name="library.include" value="**/org-openide-filesystems.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.netbeans.modules.nbjunit"/>
+            <param name="library.include" value="**/org-netbeans-modules-nbjunit.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.netbeans.insane"/>
+            <param name="library.include" value="**/org-netbeans-insane.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.netbeans.libs.springframework"/>
+            <param name="library.include" value="**/*spring*.jar"/>
+        </antcall>
+        <antcall target="-library-from-nbm">
+            <param name="library" value="org.netbeans.libs.commons_logging"/>
+            <param name="library.include" value="**/*commons*logg*.jar"/>
+        </antcall>
+    </target>
+
+    <available property="autoupdate.tasks.jar" file="dist/tasks.jar"/>
+    <property name="bootstrap.url" value="http://deadlock.netbeans.org/hudson/job/nbms-and-javadoc/lastStableBuild/artifact/nbbuild/netbeans/harness/tasks.jar"/>
+    <property name="netbeans.updatecenter.url" value="http://deadlock.netbeans.org/hudson/job/nbms-and-javadoc/lastSuccessfulBuild/artifact/nbbuild/nbms/updates.xml.gz"/>
+    <target name="-download-autoupdate-task" unless="autoupdate.tasks.jar">
+        <mkdir dir="dist"/>
+        <get dest="dist/tasks.jar" src="${bootstrap.url}" usetimestamp="true"/>
+    </target>
+    <target name="autoupdate-task" depends="-download-autoupdate-task">
+        <taskdef
+            name="autoupdate" classname="org.netbeans.nbbuild.AutoUpdate"
+            classpath="dist/tasks.jar"
+        />
+    </target>
+    
+    <!-- support methods -->
+    
+    <target name="-library-check">
+        <fail message="You need to specify library name" unless="library"/>
+        <fail message="You need to specify url" unless="url"/>
+        
+        <property name="library.jar" location="dist/${library}.jar"/>
+        <property name="library.zip" location="dist/${library}.zip"/>
+        
+        <echo message="Checking for ${library.jar}"/>
+        <available file="${library.jar}"     property="library.available"/>
+    </target>
+    <target name="-library" depends="-library-check" unless="library.available">
+        <mkdir dir="dist"/>
+        <get dest="${library.jar}" src="${url}"/>
+        
+        <fail message="Now the library ${library} should be downloaded">
+            <condition>
+                <not><available file="${library.jar}"/></not>
+            </condition>
+        </fail>
+    </target>
+    <target name="-library-from-nbm-check">
+        <echo message="Checking for ${library} and its includes ${library.include}"/>
+        <condition property="library.from.nbm.available">
+            <resourcecount when="greater" count="0">
+                <fileset dir="dist">
+                    <include name="${library.include}"/>
+                </fileset>
+            </resourcecount>
+        </condition>
+    </target>
+    <target name="-library-from-nbm" depends="-library-from-nbm-check" unless="library.from.nbm.available">
+        <fail message="You need to specify library name" unless="library"/>
+        <autoupdate todir="dist" updatecenter="${netbeans.updatecenter.url}">
+            <modules includes="${library}"/>
+        </autoupdate>
+
+        <copy todir="dist" flatten="true">
+            <fileset dir="dist">
+                <include name="${library.include}"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="clean">
+        <delete dir="dist"/>
+    </target>
+</project>

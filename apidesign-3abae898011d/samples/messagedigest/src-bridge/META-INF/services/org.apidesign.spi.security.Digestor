@@ -1,0 +1,4 @@
+# BEGIN: day.end.bridges.FriendMetaInf
+# registration in bridge's META-INF/services/
+org.apidesign.impl.security.extension.BridgeToNew
+# END: day.end.bridges.FriendMetaInf

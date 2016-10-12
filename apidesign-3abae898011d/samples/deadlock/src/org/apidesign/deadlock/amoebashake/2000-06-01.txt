@@ -1,0 +1,10 @@
+public final Node getNodeDelegate () {
+    if (nodeDelegate == null) {
+        synchronized (this) {
+            if (nodeDelegate == null) {
+                nodeDelegate = createNodeDelegate ();
+            }
+        }
+    }
+    return nodeDelegate;
+}

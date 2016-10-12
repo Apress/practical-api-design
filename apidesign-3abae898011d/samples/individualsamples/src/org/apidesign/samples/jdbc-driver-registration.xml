@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BEGIN: theory.jdbc.driver.registration -->
+<!DOCTYPE driver PUBLIC 
+    '-//NetBeans//DTD JDBC Driver 1.0//EN' 
+    'http://www.netbeans.org/dtds/jdbc-driver-1_0.dtd'
+>
+<driver>
+ <name value='postgresql-7'/>
+  <display-name value='PostgreSQL (v7.0 and later)'/>
+  <class value='org.postgresql.Driver'/>
+  <urls>
+    <url value='file:/folder1/folder2/drivers/pg74.1jdbc3.jar'/>
+  </urls>
+</driver>
+<!-- END: theory.jdbc.driver.registration -->

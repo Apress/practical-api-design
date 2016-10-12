@@ -1,0 +1,11 @@
+public final Node getNodeDelegate () {
+    synchronized(nodeCreationLock) {
+        if (nodeDelegate == null) {
+            nodeDelegate = createNodeDelegate();
+        }
+    }
+    if (nodeDelegate == null) {
+        throw new IllegalStateException("DataObject " + this + " has null
+    }
+    return nodeDelegate;
+}

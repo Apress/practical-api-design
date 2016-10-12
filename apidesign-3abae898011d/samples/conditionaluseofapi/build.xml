@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="conditionaluseofapi" default="default" basedir=".">
+    <description>Builds, tests, and runs the project conditionaluseofapi.</description>
+    
+    <target name="test">
+        <!-- simulates run on JDK 1.4 -->
+        <antcall target="clean"/>
+        <antcall target="run">
+            <param name="excludes" value="**/*15.java"/>
+        </antcall>
+    </target>
+
+    <target name="-pre-compile">
+        <condition property="excludes" value="**/*15.java">
+            <not>
+            <available classname="java.lang.StringBuilder"/>
+            </not>
+        </condition>
+        <property name="excludes" value=""/>
+    </target>
+
+    
+    <import file="nbproject/build-impl.xml"/>
+    
+    
+    
+</project>

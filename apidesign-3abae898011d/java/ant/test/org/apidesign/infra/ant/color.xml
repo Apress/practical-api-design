@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="testing build script" default="all" basedir=".">
+    <target name="all">
+        <taskdef name="grepfilter" classname="org.apidesign.infra.ant.GrepFilter"/>
+
+        <grepfilter id="test.filter.set">
+            <fileset dir="${dir1}">
+                <include name="${include1}"/>
+            </fileset>
+        </grepfilter>
+        
+        <copy file="${file1}" tofile="${file2}" encoding="utf-8">
+            <filterset refid="test.filter.set"/>
+        </copy>
+    </target>
+
+</project>

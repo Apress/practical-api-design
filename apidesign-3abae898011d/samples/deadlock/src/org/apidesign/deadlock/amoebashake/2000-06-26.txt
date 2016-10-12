@@ -1,0 +1,12 @@
+public final Node getNodeDelegate () {
+    if (nodeDelegate == null) {
+        Children.MUTEX.writeAccess (new Runnable () {
+            public void run () {
+                if (nodeDelegate == null) {
+                    nodeDelegate = createNodeDelegate ();
+                }
+            }
+        });
+    }
+    return nodeDelegate;
+}	

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1" xmlns:ns4="null">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <name>Anagram Modular</name>
+        </general-data>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
+            <name>Anagram Modular</name>
+            <properties/>
+            <folders>
+                <source-folder>
+                    <label>Anagram Modular</label>
+                    <location>.</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-api</label>
+                    <type>java</type>
+                    <location>src-api</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-api-compiletimecaches</label>
+                    <type>java</type>
+                    <location>src-api-compiletimecaches</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-word-annotated</label>
+                    <type>java</type>
+                    <location>src-word-annotated</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-word-static</label>
+                    <type>java</type>
+                    <location>src-word-static</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-scrambler-simple</label>
+                    <type>java</type>
+                    <location>src-scrambler-simple</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-gui</label>
+                    <type>java</type>
+                    <location>src-gui</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-register</label>
+                    <type>java</type>
+                    <location>src-app-register</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-register-general</label>
+                    <type>java</type>
+                    <location>src-app-register-general</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-property</label>
+                    <type>java</type>
+                    <location>src-app-property</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-spring</label>
+                    <type>java</type>
+                    <location>src-app-spring</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-spring-scan</label>
+                    <type>java</type>
+                    <location>src-app-spring-scan</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-lookup</label>
+                    <type>java</type>
+                    <location>src-app-lookup</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-app-serviceloader</label>
+                    <type>java</type>
+                    <location>src-app-serviceloader</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>src-test</label>
+                    <type>java</type>
+                    <location>src-test</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>build</target>
+                </action>
+                <action name="clean">
+                    <target>clean</target>
+                </action>
+                <action name="run">
+                    <target>run</target>
+                </action>
+                <action name="test">
+                    <target>test</target>
+                </action>
+                <action name="rebuild">
+                    <target>clean</target>
+                    <target>build</target>
+                </action>
+                <action name="debug.single">
+                    <target>-do-test</target>
+                    <context>
+                        <property>include</property>
+                        <folder>src-test</folder>
+                        <format>relative-path-noext</format>
+                        <arity>
+                            <one-file-only/>
+                        </arity>
+                    </context>
+                </action>
+            </ide-actions>
+            <export>
+                <type>folder</type>
+                <location>build/api/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/api-compiletimecaches/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/word-annotated/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/word-static/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/scrambler-simple/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/gui/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-register/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-register/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-property/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-spring/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-spring-scan/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-lookup/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <export>
+                <type>folder</type>
+                <location>build/app-serviceloader/classes</location>
+                <build-target>build</build-target>
+            </export>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>src-api</label>
+                        <location>src-api</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-api-compiletimecaches</label>
+                        <location>src-api-compiletimecaches</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-word-annotated</label>
+                        <location>src-word-annotated</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-word-static</label>
+                        <location>src-word-static</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-scrambler-simple</label>
+                        <location>src-scrambler-simple</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-gui</label>
+                        <location>src-gui</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-register</label>
+                        <location>src-app-register</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-register-general</label>
+                        <location>src-app-register-general</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-property</label>
+                        <location>src-app-property</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-spring</label>
+                        <location>src-app-spring</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-spring-scan</label>
+                        <location>src-app-spring-scan</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-lookup</label>
+                        <location>src-app-lookup</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-app-serviceloader</label>
+                        <location>src-app-serviceloader</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src-test</label>
+                        <location>src-test</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="rebuild"/>
+                    <ide-action name="clean"/>
+                    <ide-action name="run"/>
+                    <ide-action name="test"/>
+                    <ide-action name="debug"/>
+                </context-menu>
+            </view>
+            <subprojects/>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
+            <compilation-unit>
+                <package-root>src-api</package-root>
+                <built-to>build/api/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-api-compiletimecaches</package-root>
+                <classpath mode="compile">src-api:../../libs/dist/org-openide-filesystems.jar:../../libs/dist/org-openide-util-lookup.jar</classpath>
+                <built-to>build/api-compiletimecaches/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-word-annotated</package-root>
+                <classpath mode="compile">src-api:src-api-compiletimecaches:../../libs/dist/org-openide-filesystems.jar:../../libs/dist/org-openide-util-lookup.jar</classpath>
+                <built-to>build/word-annotated/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-word-static</package-root>
+                <classpath mode="compile">src-api</classpath>
+                <built-to>build/word-static/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-scrambler-simple</package-root>
+                <classpath mode="compile">src-api</classpath>
+                <built-to>build/scrambler-simple/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-gui</package-root>
+                <classpath mode="compile">src-api</classpath>
+                <built-to>build/gui/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-register</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui</classpath>
+                <built-to>build/app-register/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-register-general</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui</classpath>
+                <built-to>build/app-register/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-property</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui</classpath>
+                <built-to>build/app-property/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-spring</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui:../../libs/dist/spring-2.5.6.SEC01.jar</classpath>
+                <built-to>build/app-spring/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-spring-scan</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui:../../libs/dist/spring-2.5.6.SEC01.jar</classpath>
+                <built-to>build/app-spring-scan/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-lookup</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui:../../libs/dist/org-openide-util-lookup.jar</classpath>
+                <built-to>build/app-lookup/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-app-serviceloader</package-root>
+                <classpath mode="compile">src-api:src-scrambler-simple:src-word-static:src-gui</classpath>
+                <built-to>build/app-serviceloader/classes</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src-test</package-root>
+                <classpath mode="compile">src-api:../../libs/dist/junit-4.4.jar::../../libs/dist/org-netbeans-modules-nbjunit.jar:../../libs/dist/org-netbeans-insane.jar:src-gui:../../libs/dist/org-openide-util-lookup.jar:src-app-lookup:src-app-serviceloader</classpath>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

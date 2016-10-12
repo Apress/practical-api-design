@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Templates">
+        <folder name="Project">
+            <folder name="APIFest">
+                <file name="TestingTemplateProject.zip" url="TestingTemplateProject.zip">
+                    <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.apifest.testingtemplate.Bundle"/>
+                    <attr name="instantiatingIterator" methodvalue="org.netbeans.apifest.testingtemplate.TestingTemplateWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/netbeans/apifest/testingtemplate/TestingTemplateDescription.html"/>
+                    <attr name="template" boolvalue="true"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

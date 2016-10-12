@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="incompatibilities" default="run" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="test"/>
+    
+    <target name="compile" depends="build"/>
+    <target name="build" depends="clean">
+        <echo level="info" message="Compiles correctly with JDK 1.5, and also 1.3, but that is hard to demonstrate"/>
+        <antcall target="-build-one">
+            <param name="version" value="io"/>
+            <param name="source" value="1.5"/>
+        </antcall>
+        <echo level="info" message="Does not compile in 1.4 mode"/>
+        <antcall target="-build-one">
+            <param name="version" value="io"/>
+            <param name="source" value="1.4"/>
+        </antcall>
+    </target>
+    
+    <!-- support methods -->
+    
+    <target name="-build-one">
+        <fail message="You need to specify version number" unless="version"/>
+        <fail message="You need to specify source number" unless="source"/>
+        
+        <property name="target" value="${source}"/>
+        <mkdir dir="build/${target}/classes"/>
+        <javac 
+            srcdir="src-io" 
+            destdir="build/${target}/classes" 
+            source="${source}" target="${source}"
+            classpath="${cp}"
+            failonerror="false"
+        />
+    </target>
+</project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BEGIN: anagram.spring.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+>
+
+    <bean 
+        id="wordLibrary" 
+        class="org.apidesign.anagram.wordstatic.StaticWordLibrary"
+    />
+    <bean 
+        id="scrambler" 
+        class="org.apidesign.anagram.scramblersimple.SimpleScrambler"
+    />
+    <bean 
+        id="ui" 
+        class="org.apidesign.anagram.gui.AnagramsWithConstructor" 
+        autowire="autodetect"
+    />
+</beans>
+<!-- END: anagram.spring.xml -->
+

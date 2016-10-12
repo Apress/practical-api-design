@@ -1,0 +1,18 @@
+public final Node getNodeDelegate () {
+    if (nodeDelegate == null) {
+        Children.MUTEX.readAccess (new Runnable() {
+            public void run() {
+                synchronized(nodeCreationLock) {
+                    if (nodeDelegate == null) {
+                        nodeDelegate = createNodeDelegate();
+                    }
+                }
+            }
+        });
+    
+        if (nodeDelegate == null) {
+            throw new IllegalStateException("DataObject " + this + " ...");
+        }
+    }
+    return nodeDelegate;
+}
